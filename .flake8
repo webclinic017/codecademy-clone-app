@@ -1,5 +1,9 @@
 [flake8]
 ignore = E203, E266, E501, W503, F403, F401
-max-line-length = 80
+extend-ignore =
+    # See https://github.com/PyCQA/pycodestyle/issues/373
+    # flake8/pycodechecker give false positives on black code
+    E203,
+max-line-length = 88
 max-complexity = 18
 select = B,C,E,F,W,T4,B9
