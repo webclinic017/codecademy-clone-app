@@ -2,3 +2,4 @@ __pycache__
 envpy3.7
 .vscode
 XDG_CACHE_HOME
+htmlcov

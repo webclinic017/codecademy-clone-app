@@ -1,23 +1,24 @@
-FROM python:3.7-alpine as base                                                                                                
-                                                                                                                              
-FROM base as builder                                                                                                          
-                                                                                                                              
-RUN mkdir /install                                                                                                            
-RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev                                                             
-WORKDIR /install                                                                                                              
-COPY requirements.txt /requirements.txt                                                                                       
-RUN pip install --install-option="--prefix=/install" -r /requirements.txt                                                     
-                                                                                                                              
-FROM base                                                                                                                     
-                                                                                                                              
-COPY --from=builder /install /usr/local                                                                                       
-RUN apk --no-cache add libpq                                                                                                  
+# base image
+FROM python:3.7.2-slim
+
+# install netcat
+RUN apt-get update && \
+    apt-get -y install netcat && \
+    apt-get clean
+
 # set working directory
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
+
+# add and install requirements
+COPY ./requirements.txt /usr/src/app/requirements.txt
+RUN pip install -r requirements.txt
+
 # add entrypoint.sh
-COPY ./entrypoint.sh /usr/src/app/
+COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
 RUN chmod +x /usr/src/app/entrypoint.sh
+
+# add app
 COPY . /usr/src/app
+
 # run server
 CMD ["/usr/src/app/entrypoint.sh"]

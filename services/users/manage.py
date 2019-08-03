@@ -3,8 +3,19 @@ import sys
 from flask.cli import FlaskGroup
 import unittest
 from project import create_app, db
+import coverage
 
 from project.api.models import User
+
+COV = coverage.coverage(
+    branch=True,
+    include='project/*',
+    omit=[
+        'project/tests/*',
+        'project/config.py',
+    ]
+)
+COV.start()
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
@@ -28,6 +39,21 @@ def test():
     tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
+        return 0
+    sys.exit(result)
+
+@cli.command()
+def cov():
+    """Runs the unit tests with coverage."""
+    tests = unittest.TestLoader().discover('project/tests')
+    result = unittest.TextTestRunner(verbosity=2).run(tests)
+    if result.wasSuccessful():
+        COV.stop()
+        COV.save()
+        print('Coverage Summary:')
+        COV.report()
+        COV.html_report()
+        COV.erase()
         return 0
     sys.exit(result)
 
