@@ -7,3 +7,5 @@ gunicorn==19.9.0
 coverage==4.5.3
 flake8==3.7.8
 black
+flask-debugtoolbar==0.10.1
+coverage==4.5.3
