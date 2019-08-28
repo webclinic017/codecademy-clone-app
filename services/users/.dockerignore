@@ -1,6 +1,10 @@
 env
 .dockerignore
+node_modules
 __pycache__
+coverage
+build
+env
+htmlcov
 Dockerfile
 Dockerfile-prod
-htmlcov
