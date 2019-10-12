@@ -10,6 +10,7 @@ class BaseConfig:
     SECRET_KEY = "my_precious"
     DEBUG_TB_ENABLED = False
     DEBUG_TB_INTERCEPT_REDIRECTS = False
+    BCRYPT_LOG_ROUNDS = 13
 
 
 class DevelopmentConfig(BaseConfig):
@@ -17,13 +18,16 @@ class DevelopmentConfig(BaseConfig):
 
     DEBUG_TB_ENABLED = True
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    BCRYPT_LOG_ROUNDS = 4
 
 
 class TestingConfig(BaseConfig):
     """Testing configuration"""
 
     TESTING = True
+    PRESERVE_CONTEXT_ON_EXCEPTION = False
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    BCRYPT_LOG_ROUNDS = 4
 
 
 class ProductionConfig(BaseConfig):
