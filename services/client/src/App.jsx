@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Route, Switch } from 'react-router-dom';
 import Form from './components/Form';
 import UsersList from './components/UsersList';
+import UserStatus from './components/UserStatus';
 import AddUser from './components/AddUser';
 import About from './components/About';
 import NavBar from './components/NavBar';
@@ -93,7 +94,8 @@ class APP extends Component {
     render() {
     return (
         <div>
-        <NavBar title={this.state.title} />
+        <NavBar title={this.state.title}
+            isAuthenticated={this.state.isAuthenticated} />
         <section className="section">
         <div className="container">
             <div className="columns">
@@ -112,6 +114,11 @@ class APP extends Component {
                     <br/><br/>
                     <UsersList users={this.state.users}/>
                     </div>
+                )} />
+                <Route exact path='/status' render={() => (
+                    <UserStatus
+                        isAuthenticated={this.state.isAuthenticated}
+                    />
                 )} />
                 <Route exact path='/about' component={About}/>
                 <Route exact path='/register' render={() => (

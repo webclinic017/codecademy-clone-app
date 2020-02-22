@@ -1,5 +1,7 @@
+language: python
 sudo: required
-language: minimal
+python:
+  - "3.6"
 
 services:
   - docker
